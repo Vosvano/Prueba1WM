@@ -9,16 +9,16 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="API de Reservas y Consultas",
-    description="Backend HTTP REST para sistema web y móvil",
+    description="Backend HTTP REST para sistema web/móvil",
     version="1.0.0"
 )
 
 # Habilitar CORS (Crucial para Web y Móvil)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permite cualquier origen (React, Flutter, etc.)
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Permite GET, POST, PUT, DELETE, etc.
+    allow_methods=["*"], 
     allow_headers=["*"],
 )
 
