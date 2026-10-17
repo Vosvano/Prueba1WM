@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
-from app.routers import spaces, users
+from app.routers import reservations, spaces, users
 
 # Crear tablas en SQLite automáticamente al arrancar
 Base.metadata.create_all(bind=engine)
@@ -25,6 +25,7 @@ app.add_middleware(
 # Registrar los endpoints
 app.include_router(spaces.router)
 app.include_router(users.router)
+app.include_router(reservations.router)
 
 @app.get("/")
 def ruta_raiz():

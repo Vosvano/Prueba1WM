@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -13,10 +12,10 @@ class SpaceCreate(BaseModel):
 
 # Para actualizar un espacio correctamente
 class SpaceUpdate(BaseModel):
-    name: Optional[str] = None,
-    capacity: Optional[int] = None,
-    location: Optional[str] = None,
-    full_availability: Optional[bool] = None
+    name: str | None = None,
+    capacity: int | None = None,
+    location: str | None = None,
+    full_availability: bool | None = None
 
 # Respuesta de un espacio
 class SpaceResponse(SpaceCreate):

@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -9,12 +11,12 @@ router = APIRouter(prefix="/api/spaces", tags=["Spaces"])
 
 # HTTP GET: Obtener todos los espacios
 @router.get("/", response_model=list[SpaceResponse], status_code=status.HTTP_200_OK)
-def List_spaces(db: Session = Depends(get_db)):
+def List_spaces(db: Annotated[Session, Depends(get_db)]):
     return db.query(Space).all()
 
 # HTTP GET: Obtener un espacio por ID
 @router.get("/{space_id}", response_model=SpaceResponse)
-def get_spaces(space_id: int, db: Session = Depends(get_db)):
+def get_spaces(space_id: int, db: Annotated[Session, Depends(get_db)]):
     space = db.query(Space).filter(Space.id == space_id).first()
     if not space:
         raise HTTPException(
@@ -26,7 +28,7 @@ def get_spaces(space_id: int, db: Session = Depends(get_db)):
 
 # HTTP POST: Crear un nuevo espacio
 @router.post("/", response_model=SpaceResponse, status_code=status.HTTP_201_CREATED)
-def create_space(space: SpaceCreate, db: Session = Depends(get_db)):
+def create_space(space: SpaceCreate, db: Annotated[Session, Depends(get_db)]):
     new_space = Space(**space.model_dump())
     db.add(new_space)
     db.commit()
@@ -35,7 +37,7 @@ def create_space(space: SpaceCreate, db: Session = Depends(get_db)):
 
 # HTTP PUT: Actualizar un espacio existente
 @router.put("/{space_id}", response_model=SpaceResponse)
-def update_space(space_id: int, updated_space: SpaceUpdate, db: Session = Depends(get_db)):
+def update_space(space_id: int, updated_space: SpaceUpdate, db: Annotated[Session, Depends(get_db)]):
     space = db.query(Space).filter(Space.id == space_id).first()
     if not space:
         raise HTTPException(
@@ -55,7 +57,7 @@ def update_space(space_id: int, updated_space: SpaceUpdate, db: Session = Depend
 
 # HTTP DELETE: Eliminar un espacio
 @router.delete("/{space_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_space(space_id: int, db: Session = Depends(get_db)):
+def delete_space(space_id: int, db: Annotated[Session, Depends(get_db)]):
     space = db.query(Space).filter(Space.id == space_id).first()
     if not space:
         raise HTTPException(
@@ -65,4 +67,3 @@ def delete_space(space_id: int, db: Session = Depends(get_db)):
     
     db.delete(space)
     db.commit()
-    return None
