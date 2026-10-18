@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field
 
+# Esquema para la creación, actualización y respuesta de reservas.
 
 # Para solicitar una reserva
 class CrearReserva(BaseModel):

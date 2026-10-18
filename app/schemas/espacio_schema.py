@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+# Esquema para la creación, actualización y respuesta de un espacio.
 
 # Para crear un espacio
 class CrearEspacio(BaseModel):
@@ -10,7 +11,7 @@ class CrearEspacio(BaseModel):
     descripcion: str | None = Field(default=None, description="Descripcion opcional del espacio")
 
 
-# Para actualizar un espacio correctamente (PUT/PATCH)
+# Para actualizar un espacio correctamente (PUT)
 class ActualizarEspacio(BaseModel):
     nombre: str | None = None
     capacidad: int | None = None

@@ -11,6 +11,7 @@ from app.repositories.usuario_rep import RepositorioUsuario
 from app.schemas.reserva_schema import ActualizarReserva, CrearReserva, RespuestaReserva
 from app.services.reserva_service import ReservaService
 
+# Router para el manejo de endpoints relacionados con las reservas.
 router = APIRouter(prefix="/api/reservas", tags=["Reservas"])
 
 
@@ -49,7 +50,7 @@ def obtener_reserva(id_reserva: int, service: Annotated[ReservaService, Depends(
     return service.obtener_reserva_id(id_reserva)
 
 
-# HTTP POST: Crear una nueva reserva (aplica regla de negocio de solapamiento)
+# HTTP POST: Crear una nueva reserva (con solapamiento)
 @router.post("", response_model=RespuestaReserva, status_code=status.HTTP_201_CREATED)
 def crear_reserva(reserva: CrearReserva, service: Annotated[ReservaService, Depends(get_reservation_service)]):
     return service.crear_reserva(reserva)

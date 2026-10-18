@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
+
 from app.database import Base, SessionLocal, engine
-from app.models.usuarios import Usuario
 from app.models.espacios import Espacio
 from app.models.reservas import Reserva
+from app.models.usuarios import Usuario
+
 
 def poblar_base_de_datos():
     # Asegurar que las tablas existan
@@ -10,27 +12,27 @@ def poblar_base_de_datos():
     db = SessionLocal()
 
     try:
-        print("[+] Iniciando la carga de datos iniciales (Seed)...")
+        print("Iniciando la carga de datos iniciales")
 
-        # 1. Limpiar datos existentes para que sea reproducible
+        # Limpiar datos existentes para que sea reproducible
         db.query(Reserva).delete()
         db.query(Espacio).delete()
         db.query(Usuario).delete()
         db.commit()
 
-        # 2. Crear 5 Usuarios mínimos requeridos
+        # Crear 5 Usuarios mínimos requeridos
         usuarios = [
             Usuario(nombre="Juan Perez", correo="juan.perez@ce.ucn.cl"),
-            Usuario(nombre="Maria Gonzalez", correo="maria.gonzalez@ce.ucn.cl"),
+            Usuario(nombre="Maria Gonzalez", correo="maria.gonzalez@alumnos.ucn.cl"),
             Usuario(nombre="Carlos Silva", correo="carlos.silva@ce.ucn.cl"),
-            Usuario(nombre="Ana Morales", correo="ana.morales@ce.ucn.cl"),
+            Usuario(nombre="Ana Morales", correo="ana.morales@alumnos.ucn.cl"),
             Usuario(nombre="Pedro Araya", correo="pedro.araya@ce.ucn.cl"),
         ]
         db.add_all(usuarios)
         db.commit()
         print(f"[OK] {len(usuarios)} Usuarios creados con exito.")
 
-        # 3. Crear 10 Espacios mínimos requeridos
+        # Crear 10 Espacios mínimos requeridos
         espacios = [
             Espacio(nombre="Auditorio Andres Sabella", ubicacion="Edificio F - Piso 1", capacidad=120, disponibilidad=True),
             Espacio(nombre="Sala de Estudio Grupal 1", ubicacion="Biblioteca Central - Piso 2", capacidad=8, disponibilidad=True),
@@ -47,20 +49,17 @@ def poblar_base_de_datos():
         db.commit()
         print(f"[OK] {len(espacios)} Espacios creados con exito.")
 
-        # Recargar para obtener los IDs asignados
         db_usuarios = db.query(Usuario).all()
         db_espacios = db.query(Espacio).all()
 
-        # 4. Crear 15 Reservas mínimas requeridas (horarios sin solapamiento)
+        # Crear 15 Reservas mínimas requeridas (horarios sin solapamiento)
         hoy = datetime.now().date()
         reservas = []
 
-        # Generamos 15 reservas distribuidas entre los usuarios y espacios
         horarios = [
             (8, 10), (10, 12), (12, 14), (14, 16), (16, 18)
         ]
 
-        # 5 reservas por día para 3 días
         res_count = 0
         for dia_offset in range(3): # Hoy, mañana y pasado mañana
             fecha_dia = datetime.combine(hoy + timedelta(days=dia_offset), datetime.min.time())

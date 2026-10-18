@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+# Esquema para la creación, actualización y respuesta de un usuario.
 
 # Para crear un usuario
 class CrearUsuario(BaseModel):

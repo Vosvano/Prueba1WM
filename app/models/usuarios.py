@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 
+# Modelo de datos para representar un usuario en la base de datos.
 class Usuario(Base):
     __tablename__ = "usuarios"
     id: Mapped[int] = mapped_column(

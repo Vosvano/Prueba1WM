@@ -7,6 +7,7 @@ from app.models.reservas import Reserva
 from app.schemas.reserva_schema import ActualizarReserva, CrearReserva
 
 
+# Repositorio para manejar operaciones relacionadas con las reservas en la base de datos.
 class RepositorioReserva:
     def __init__(self, db: Session):
         self.db = db

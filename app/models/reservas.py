@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 
+# Modelo de datos para representar una reserva en la base de datos.
 class Reserva(Base):
     __tablename__ = "reservas"
     id: Mapped[int] = mapped_column(

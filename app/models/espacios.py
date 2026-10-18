@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 
+# Modelo de datos para representar un espacio en la base de datos.
 class Espacio(Base):
     __tablename__ = "espacios"
     id: Mapped[int] = mapped_column(

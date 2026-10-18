@@ -1,8 +1,10 @@
 import time
+
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
 
+# Middleware para medir el tiempo de procesamiento de las solicitudes HTTP y agregarlo a la cabecera de la respuesta.
 class TimingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         start_time = time.time()

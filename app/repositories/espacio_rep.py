@@ -4,6 +4,7 @@ from app.models.espacios import Espacio
 from app.schemas.espacio_schema import ActualizarEspacio, CrearEspacio
 
 
+# Repositorio para manejar operaciones relacionadas con los espacios en la base de datos.
 class RepositorioEspacio:
     def __init__(self, db: Session):
         self.db = db

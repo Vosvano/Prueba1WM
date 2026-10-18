@@ -8,14 +8,15 @@ from app.repositories.espacio_rep import RepositorioEspacio
 from app.schemas.espacio_schema import ActualizarEspacio, CrearEspacio, RespuestaEspacio
 from app.services.espacio_service import EspacioService
 
+# Router para el manejo de endpoints relacionados con los espacios.
 router = APIRouter(prefix="/api/espacios", tags=["Espacios"])
 
-
+# Dependencias
 def get_space_service(db: Annotated[Session, Depends(get_db)]) -> EspacioService:
     return EspacioService(RepositorioEspacio(db))
 
 
-# 1. GET con paginación y filtros (Query Params)
+# GET con paginación y filtros (Query Params)
 @router.get("", response_model=list[RespuestaEspacio], status_code=status.HTTP_200_OK)
 def listar_espacios(
     pagina: int = Query(1, ge=1, description="Número de página"),
@@ -27,25 +28,25 @@ def listar_espacios(
     return service.listar_espacios(pagina, limite, capacidad, disponibilidad)
 
 
-# 2. GET por ID
+# GET por ID
 @router.get("/{id_espacio}", response_model=RespuestaEspacio, status_code=status.HTTP_200_OK)
 def obtener_espacio_id(id_espacio: int, service: Annotated[EspacioService, Depends(get_space_service)]):
     return service.obtener_espacio_id(id_espacio)
 
 
-# 3. POST para crear
+# POST para crear
 @router.post("", response_model=RespuestaEspacio, status_code=status.HTTP_201_CREATED)
 def crear_espacio(data: CrearEspacio, service: Annotated[EspacioService, Depends(get_space_service)]):
     return service.crear_espacio(data)
 
 
-# 4. PUT para actualizar
+# PUT para actualizar
 @router.put("/{id_espacio}", response_model=RespuestaEspacio, status_code=status.HTTP_200_OK)
 def actualizar_espacio(id_espacio: int, data: ActualizarEspacio, service: Annotated[EspacioService, Depends(get_space_service)]):
     return service.actualizar_espacio(id_espacio, data)
 
 
-# 5. DELETE para eliminar
+# DELETE para eliminar
 @router.delete("/{id_espacio}", status_code=status.HTTP_204_NO_CONTENT)
 def eliminar_espacio(id_espacio: int, service: Annotated[EspacioService, Depends(get_space_service)]):
     service.eliminar_espacio(id_espacio)

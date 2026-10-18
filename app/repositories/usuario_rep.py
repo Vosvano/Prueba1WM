@@ -4,6 +4,7 @@ from app.models.usuarios import Usuario
 from app.schemas.usuario_schema import ActualizarUsuario, CrearUsuario
 
 
+# Repositorio para manejar operaciones relacionadas con los usuarios en la base de datos.
 class RepositorioUsuario:
     def __init__(self, db: Session):
         self.db = db
